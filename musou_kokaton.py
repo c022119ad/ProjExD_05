@@ -594,7 +594,7 @@ def main():
     enamy = pg.mixer.Sound(f"{MAIN_DIR}/ビーム音.mp3")#敵のビーム音
     pg.mixer.music.set_volume(0.5)#bgmの音量
     pg.mixer.music.load(f"{MAIN_DIR}/maou.mp3")#maou.mp3のbgmの読み込み
-    # pg.mixer.music.play(1)#反映させる
+    pg.mixer.music.play(1)#反映させる
     score = Score()
     title_font = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 100)
     sub_font = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体",50)
@@ -628,12 +628,9 @@ def main():
     se2 = pg.mixer.Sound(f"{MAIN_DIR}/bgms/check.mp3")
     # titleimg = title_font.render(f"こうかシューティング",0,(random.randint(0,255),random.randint(0,255),random.randint(0,255)))
     bird = Bird(3, (900, 400))
-
-
     demo_bird = Bird(3, (900, 400))
     hps = [HitPoint(bird, (400, 100))]
     demo_bird = Bird(3, (900, 400))
-
     bird2 = Bird2(103, (500, 400))
     bombs = pg.sprite.Group()
     bombs2 = pg.sprite.Group()
@@ -679,8 +676,6 @@ def main():
             demo_bombs.update(bomb_dict[bomb_index])
             demo_bombs.draw(screen)
         
-            # screen.blit(bg_img, [0, 0])
-            
             if setmode:
                 for event in pg.event.get():
                     if event.type == pg.QUIT:
@@ -722,8 +717,6 @@ def main():
                 elif set_rect ==2:
                     pg.draw.line(screen,(0,0,0),(WIDTH/2-500,HEIGHT/2+180),(WIDTH/2-100,HEIGHT/2+180),5)
                 
-                
-                
             else:
                 for event in pg.event.get():
                     if event.type == pg.QUIT:
@@ -759,28 +752,7 @@ def main():
                 if  rect_ != 0:
                     pg.draw.rect(screen,(255,0,0),(WIDTH/2-180,HEIGHT/2-125+rect_*100,350,60),5)
                 for title in subtitle:
-                    title.update(screen)
-            
-                
-            # pg.draw.rect(screen,(255,255,255),(0,0,WIDTH,HEIGHT))
-            # if democount%hind_dict[hind_index] == 0 and len(demo_emys) <10:  # 200フレームに1回，敵機を出現させる
-            #     demo_emys.add(Enemy())
-            # for emy in demo_emys:
-            #     if emy.state == "stop" and democount%emy.interval == 0:
-            #         # 敵機が停止状態に入ったら，intervalに応じて爆弾投下
-            #         demo_bombs.add(Bomb(emy, demo_bird))
-            
-            # demo_keydict[pg.K_LEFT] = random.randint(0,1)
-            # demo_keydict[pg.K_RIGHT] = random.randint(0,1)
-            # demo_keydict[pg.K_DOWN] = random.randint(0,1)
-            # demo_keydict[pg.K_UP] = random.randint(0,1)
-            # demo_bird.demo_update(demo_keydict)
-            # demo_emys.update()
-            # demo_emys.draw(screen)
-            # demo_bombs.update(bomb_dict[bomb_index])
-            # demo_bombs.draw(screen)
-            
-            
+                    title.update(screen)  
             pg.display.update()
             democount+=1
         elif game_mode == 1:
@@ -800,19 +772,10 @@ def main():
                     bird.check_act = True
                     bird.act_life = 400
                     domains.add(Domain(100, bird.act_life, bird)) # 簡易領域
-                    
-            # screen.blit(bg_img, [0, 0])
-
-
-            if tmr%hind_dict[hind_index] == 0:  # 200フレームに1回，敵機を出現させる
+            
+            if tmr%hind_dict[hind_index] == 0:  # 任意の秒数に1回，敵機を出現させる
                 emys.add(Enemy())
 
-            
-
-
-            # if tmr%Enemy.tf == 0 and len(bosses)==0:  # 200フレームに1回かつ，ボスがいない時に敵機を出現させる
-            #     emys.add(Enemy())
-            #     Enemy.tf += 50
 
             # ゲーム開始から30秒が経過かつ，敵機が5体以上いるかつ，ボスがいない時にボスを出現させる
             if pg.time.get_ticks()>30*10**3 and len(emys)>=5 and len(bosses)==0:
