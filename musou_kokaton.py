@@ -587,7 +587,6 @@ def main():
     pg.display.set_caption("こうかシューティング")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
     bg_img = pg.image.load(f"{MAIN_DIR}/fig/pg_bg.jpg")
-    
     sound = pg.mixer.Sound(f"{MAIN_DIR}/koukaon.mp3")#ビームの発射音
     sounds = pg.mixer.Sound(f"{MAIN_DIR}/Big_Hits.mp3")#敵に当たったときの音
     sound1 = pg.mixer.Sound(f"{MAIN_DIR}/出現.mp3")#敵が出た時
@@ -879,7 +878,6 @@ def main():
             domains.draw(screen)
             score.update(screen)
             pg.display.update()
-
             tmr += 1
 
         if game_mode==2:
