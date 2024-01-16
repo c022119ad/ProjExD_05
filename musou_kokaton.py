@@ -610,7 +610,8 @@ def main():
     lst.append(emys_hind1)
     lst.append(emys_hind2)
     lst.append(emys_hind3)
-    emys_charalst=[]
+    
+    emys_charalst=[]  # ゲームの難易度のテキストを保存しておく2次元リスト
     emys_charalst.append(lst)
     bombspeed = sub_font.render(f"ばくだんのはやさ",0,(0,0,0))
     bombspeed1 = sub_font.render(f"おそい",0,(0,0,0))    
@@ -621,7 +622,6 @@ def main():
     lst.append(bombspeed2)
     lst.append(bombspeed3)
     emys_charalst.append(lst)
-    print(emys_charalst)
     encount = 200  # 初期の敵出現時間感覚
     se1 = pg.mixer.Sound(f"{MAIN_DIR}/bgms/lect.mp3")
     se2 = pg.mixer.Sound(f"{MAIN_DIR}/bgms/check.mp3")
@@ -664,7 +664,7 @@ def main():
                 if emy.state == "stop" and democount%emy.interval == 0:
                     # 敵機が停止状態に入ったら，intervalに応じて爆弾投下
                     demo_bombs.add(Bomb(emy, demo_bird))
-            
+            ## 透明こうかとんをランダムで動かすための辞書を作成
             demo_keydict[pg.K_LEFT] = random.randint(0,1)
             demo_keydict[pg.K_RIGHT] = random.randint(0,1)
             demo_keydict[pg.K_DOWN] = random.randint(0,1)
@@ -705,7 +705,7 @@ def main():
                         if set_rect == 2 and bomb_index >0:
                             bomb_index-=1
                             se1.play()
-                        
+                            
                 screen.blit(set_chara,(WIDTH/2-200,HEIGHT/2-300))
                 screen.blit(emys_charalst[0][hind_index],(WIDTH/2-200,HEIGHT/2-100))
                 screen.blit(emys_hind,(WIDTH/2-500,HEIGHT/2-170))
@@ -734,7 +734,7 @@ def main():
                             se1.play() 
                     if event.type == pg.KEYDOWN and event.key == pg.K_RETURN:
                         se2.play()
-                        if rect_ == 1:
+                        if rect_ == 1:  # ひとりでプレイを選ばれたらゲームモードを1にして、各種変数を初期化する
                             game_mode = 1
                             rect_ = 0  # 決定を押されたら初期に戻す
                             demo_emys = pg.sprite.Group()  # 初期化
@@ -750,9 +750,18 @@ def main():
                             score = Score()
                             bird.life = bird.max_life
                             hps = [HitPoint(bird, (400, 100))]
-                        if rect_ == 2:
+                        if rect_ == 2:  # ふたりでプレイを選ばれたときも同様の処理
                             game_mode = 2
                             rect_ = 0  # 決定を押されたら初期に戻す
+                            tmr = 0
+                            bird = Bird(3, (900, 400))
+                            bird2 = Bird2(103, (500, 400))
+                            bombs = pg.sprite.Group()
+                            bombs2 = pg.sprite.Group()
+                            beams = pg.sprite.Group()
+                            beams2 = pg.sprite.Group()
+                            exps = pg.sprite.Group()
+                            emys = pg.sprite.Group()
                             demo_emys = pg.sprite.Group()  # 初期化
                             demo_bombs = pg.sprite.Group()  # 初期化
                         if rect_ == 3:
@@ -766,14 +775,12 @@ def main():
             pg.display.update()
             democount+=1
         elif game_mode == 1:
-            
             key_lst = pg.key.get_pressed()
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     return 0
                 if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
-                    if len(beams) <=2:
-                        
+                    if len(beams) <=5:  # 画面上に出せるビームの数に制限を求めました
                         beams.add(Beam(bird))
                         sound.play()
 
