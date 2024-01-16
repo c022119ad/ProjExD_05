@@ -594,7 +594,7 @@ def main():
     enamy = pg.mixer.Sound(f"{MAIN_DIR}/ビーム音.mp3")#敵のビーム音
     pg.mixer.music.set_volume(0.5)#bgmの音量
     pg.mixer.music.load(f"{MAIN_DIR}/maou.mp3")#maou.mp3のbgmの読み込み
-    pg.mixer.music.play(1)#反映させる
+    pg.mixer.music.play(-1)#反映させる
     score = Score()
     title_font = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 100)
     sub_font = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体",50)
@@ -740,6 +740,17 @@ def main():
                             rect_ = 0  # 決定を押されたら初期に戻す
                             demo_emys = pg.sprite.Group()  # 初期化
                             demo_bombs = pg.sprite.Group()  # 初期化
+                            tmr = 0
+                            bird = Bird(3, (900, 400))
+                            bombs = pg.sprite.Group()
+                            beams = pg.sprite.Group()
+                            exps = pg.sprite.Group()
+                            emys = pg.sprite.Group()
+                            domains = pg.sprite.Group()
+                            bosses = pg.sprite.Group()
+                            score = Score()
+                            bird.life = bird.max_life
+                            hps = [HitPoint(bird, (400, 100))]
                         if rect_ == 2:
                             game_mode = 2
                             rect_ = 0  # 決定を押されたら初期に戻す
@@ -910,19 +921,15 @@ def main():
                 score.update(screen)
                 pg.display.update()
                 time.sleep(2)
-        
                 game_mode = 0
                 bird = Bird(3, (900, 400))
-
                 bird2 = Bird2(103, (500, 400))
-
                 bombs = pg.sprite.Group()
                 bombs2 = pg.sprite.Group()
                 beams = pg.sprite.Group()
                 beams2 = pg.sprite.Group()
                 exps = pg.sprite.Group()
                 emys = pg.sprite.Group()
-
     #bird2
             for emy in pg.sprite.groupcollide(emys, beams2, True, True).keys():
                 exps.add(Explosion(emy, 100))  # 爆発エフェクト
@@ -941,9 +948,7 @@ def main():
                 game_mode = 0
                 bird = Bird(3, (900, 400))
                 score = Score()
-
                 bird2 = Bird2(103, (500, 400))
-
                 bombs = pg.sprite.Group()
                 bombs2 = pg.sprite.Group()
                 beams = pg.sprite.Group()
@@ -968,7 +973,6 @@ def main():
             score.update(screen)
             pg.display.update()
             tmr += 1
-
 
         clock.tick(50)
         
